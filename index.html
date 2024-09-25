@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>The Universe</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Jacquarda+Bastarda+9&display=swap" rel="stylesheet">
+
+	<style type="text/css">
+	html{font-family: "Jacquarda Bastarda 9", serif;}
+	body{
+  		margin: 0;
+  		padding: 0;
+		height: 100vh;
+		background: url('bg-space.jpg') no-repeat center center fixed;
+			background-size: cover;
+			 display: flex;
+  flex-direction: column;
+			}
+	h1{
+		text-align:center;
+		color: white;
+		font-size: 48px;
+	}
+
+.container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.image-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 50px;
+}
+
+.image-container {
+  margin: 0 20px;
+  text-align: center;
+}
+
+.clickable {
+  cursor: pointer;
+  width: 400px;
+  height: 400px;
+}
+
+.volume-control {
+  margin-top: 10px;
+}
+
+input[type="range"] {
+  width: 200px;
+}
+
+/* Reset 버튼을 하단 중앙에 배치 */
+.reset-container {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+button {
+  padding: 10px 20px;
+  font-family:"Jacquarda Bastarda 9";
+  color:white;
+  background-color: black;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+	</style>
+</head>
+
+<body>
+	<h1><< the universe >></h1>
+	    <div class="reset-container">
+      <button id="reset-button">Reset</button>
+    </div>
+
+
+	<div class="container">
+		  <div class="image-row">
+      <div class="image-container">
+        <img src="astronaut.png" alt="Image 1" class="clickable" id="image1" />
+        <audio id="audio1" src="astronaut.mp3" loop></audio>
+        <div class="volume-control">
+          <input type="range" min="0" max="1" step="0.01" value="1" id="volume1">
+        </div>
+      </div>
+
+	    <div class="image-container">
+        <img src="planet1.png" alt="Image 2" class="clickable" id="image2" />
+        <audio id="audio2" src="planet1.mp3" loop></audio>
+        <div class="volume-control">
+          <input type="range" min="0" max="1" step="0.01" value="1" id="volume2">
+        </div>
+      </div>
+
+  <div class="image-container">
+        <img src="planet2.png" alt="Image 3" class="clickable" id="image3" />
+        <audio id="audio3" src="planet2.mp3" loop></audio>
+        <div class="volume-control">
+          <input type="range" min="0" max="1" step="0.01" value="1" id="volume3">
+        </div>
+      </div>
+
+	</div>
+	</div>
+
+    <audio id="background-music" src="bg-space.mp3" loop></audio>
+  </div>
+
+  <script type="text/javascript">
+
+const audios = document.querySelectorAll('audio');
+const backgroundMusic = document.getElementById('background-music');
+
+
+window.addEventListener('load', () => {
+  backgroundMusic.play();
+});
+
+
+document.querySelectorAll('.clickable').forEach((img) => {
+  const audio = document.getElementById(`audio${img.id.replace('image', '')}`);
+
+  img.addEventListener('click', () => {
+    if (audio.paused) {
+      audio.play(); 
+    } else {
+      audio.pause(); 
+      audio.currentTime = 0; 
+    }
+  });
+});
+
+document.querySelectorAll('input[type="range"]').forEach((slider, index) => {
+  const audio = document.getElementById(`audio${index + 1}`);
+  
+  slider.addEventListener('input', () => {
+    audio.volume = slider.value;
+  });
+});
+
+const resetButton = document.getElementById('reset-button');
+resetButton.addEventListener('click', function() {
+  audios.forEach(audio => {
+    audio.pause(); 
+    audio.currentTime = 0; 
+  });
+  backgroundMusic.pause();
+  backgroundMusic.currentTime = 0; 
+  backgroundMusic.play(); 
+
+
+  document.querySelectorAll('input[type="range"]').forEach((slider) => {
+    slider.value = 1;
+  });
+});
+  </script>
+</body>
+</html>
